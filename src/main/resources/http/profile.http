@@ -1,0 +1,71 @@
+### Register
+POST localhost:8080/student/register
+Content-Type: application/json
+
+{
+  "name": "Azim",
+  "surname": "Uktamov",
+  "phone": "1212",
+  "password": "123",
+  "birthdayDate": "2005-09-03"
+}
+
+### Login
+POST localhost:8080/student/login
+Content-Type: application/json
+
+{
+  "phone": "7881",
+  "password": "123"
+}
+
+### Refresh Token
+POST localhost:8080/student/refresh-token
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9TVFVERU5UIiwicGhvbmUiOiIxMjEyIiwic3ViIjoiMTIxMiIsImlhdCI6MTc0OTcxOTUyMSwiZXhwIjoxNzUyMzExNTIxfQ.BEgY3RtHdIHae3O4XLlJ4jsjWlYZl33_LBe-6v-DclE"
+}
+
+### Update by Student
+PUT localhost:8080/student/update/086c591f-a847-4b7b-9ef6-5b70844e58ae
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9TVFVERU5UIiwicGhvbmUiOiI3ODgxIiwic3ViIjoiNzg4MSIsImlhdCI6MTc0OTcyMjk5NSwiZXhwIjoxNzQ5ODA5Mzk1fQ.A5cDzvXpwecNRQKRLIi8bzmB6OL6lgJa9Hh9m8QjB3w
+
+{
+  "name": "Oybi"
+}
+
+### Delete by Student
+DELETE localhost:8080/student/delete/4198755f-9ff9-4414-844b-3f3f26601ea7
+Authorization: Basic MTIxMjoxMjM=
+
+
+### Get All By Admin
+GET localhost:8080/admin/all
+Authorization: Basic NDYyNzoxMjM=
+
+### Get by ID by Admin
+GET localhost:8080/admin/byId/715362f7-1ac3-416b-8c23-adb1408597c3
+Authorization: Basic OTExOToxMjM=
+
+### Update by Admin
+PUT localhost:8080/admin/update/086c591f-a847-4b7b-9ef6-5b70844e58ae
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInBob25lIjoiNDYyNyIsInN1YiI6IjQ2MjciLCJpYXQiOjE3NDk3MjI4OTgsImV4cCI6MTc0OTgwOTI5OH0.XWNSjM9uSe5hr5ap707Xs05pTUJ_cuImrVRh6PpK_sY
+
+{
+  "name": "In the go shii"
+}
+
+### Delete by Admin
+DELETE localhost:8080/admin/delete/4198755f-9ff9-4414-844b-3f3f26601ea7
+Authorization: Basic NDYyNzoxMjM=
+
+
+
+
+# 4627:123 -> NDYyNzoxMjM=
+# 7881:123 -> Nzg4MToxMjM=
+# 1212:123 -> MTIxMjoxMjM=
+# 9119:123 -> OTExOToxMjM=

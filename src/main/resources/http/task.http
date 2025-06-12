@@ -1,0 +1,39 @@
+### Create Task
+POST localhost:8080/task/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9TVFVERU5UIiwicGhvbmUiOiIxMjEyIiwic3ViIjoiMTIxMiIsImlhdCI6MTc0OTcxODgwMywiZXhwIjoxNzQ5ODA1MjAzfQ.Q0nI315MlTr4EjEzapXHKDpmZD_Ljq0cCmo1-w6tFIg
+
+{
+  "title": "Korean Centre",
+  "content": "Working in the Centre as a teacher"
+}
+
+### Get All Tasks
+GET localhost:8080/task/all
+Authorization: Basic Nzg4MToxMjM=
+
+### Get All Tasks by Admin
+GET localhost:8080/task/all-byAdmin/acde5d86-0f8f-4285-b9a6-d90a0a21fb12
+Authorization: Basic NDYyNzoxMjM=
+
+### Get Task by ID
+GET localhost:8080/task/byId/5b42e0f9-ec8a-4e87-a29e-969e68ac1a40
+Authorization: Basic Nzg4MToxMjM=
+
+### Update task by admin/student
+PATCH localhost:8080/task/update/5b42e0f9-ec8a-4e87-a29e-969e68ac1a40
+Content-Type: application/json
+Authorization: Basic NDYyNzoxMjM=
+
+{
+  "content": "Man Nodir in the"
+}
+
+### Delete task by admin/student
+DELETE localhost:8080/task/delete/4099a5b6-0c66-439d-be7f-d85f7d4d469a
+Authorization: Basic NDYyNzoxMjM=
+
+###4627:123 -> NDYyNzoxMjM=
+###7881:123 -> Nzg4MToxMjM=
+###1212:123 -> MTIxMjoxMjM=
+###9119:123 -> OTExOToxMjM=

@@ -1,0 +1,19 @@
+//////////STUDENT MANAGEMENT/////////////
+1. DB bilan ishlash
+Entities:
+Profile - Har bir foydalanuvchi (admin yoki student) ma’lumotlari
+Task - Studentlar yaratgan yoki bajaradigan vazifalar
+Task_Grade - Admin tomonidan student tasklariga berilgan baholar
+va DTO-lar va ularga validatsiya berish kerak bo'ladi.
+Request/ResponseDTOs ham buladi.
+
+
+09.06
+/// Man Security qushib login register qushdim admin va student Rollar berdim.
+Profile uchun crud va uni security-si tugadi hozircha va task uchun man create(), getAll(), getById() larni
+admin va student uchun Rollarga ajratib chiqdim va hammasi yaxshi ishladi.
+Endi update(), delete() student va admin uchun qilib keyn TaskGradeEntity CRUD ga utamiz.
+
+11.06 && 12.06
+/// Man Task uchun ham crud amalini security bilan birga qilib buldim(admin va student uchun).
+Va TaskGrade uchun ham crud amallari security bilan birga bajarildi(admin uchun).
