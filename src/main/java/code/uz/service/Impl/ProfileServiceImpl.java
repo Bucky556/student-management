@@ -6,10 +6,13 @@ import code.uz.entity.ProfileEntity;
 import code.uz.exception.CustomException;
 import code.uz.mapper.ProfileMapper;
 import code.uz.model.Status;
+import code.uz.repository.ProfileFilterRepository;
 import code.uz.repository.ProfileRepository;
 import code.uz.service.ProfileService;
 import code.uz.util.SecurityUtil;
 import io.jsonwebtoken.JwtException;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,18 +23,19 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
     private final ProfileRepository profileRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final ProfileFilterRepository profileFilterRepository;
 
-    public ProfileServiceImpl(ProfileRepository profileRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public ProfileServiceImpl(ProfileRepository profileRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, ProfileFilterRepository profileFilterRepository) {
         this.profileRepository = profileRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.profileFilterRepository = profileFilterRepository;
     }
 
     public ResponseDTO<ProfileResponseDTO> register(ProfileRequestDTO requestDTO) {
@@ -188,5 +192,22 @@ public class ProfileServiceImpl implements ProfileService {
             return ProfileMapper.toDTO(profileEntity);
         }
         throw new CustomException("Profile does not belong to this");
+    }
+
+    public PageImpl<ProfileResponseDTO> filter(ProfileFilterDTO filterDTO, int page, int size) {
+        PageImpl<ProfileEntity> filter = profileFilterRepository.filter(filterDTO, page, size);
+        List<ProfileResponseDTO> list = new ArrayList<>();
+        for (ProfileEntity entity : filter.getContent()) {
+            ProfileResponseDTO responseDTO = new ProfileResponseDTO();
+            responseDTO.setName(entity.getName());
+            responseDTO.setSurname(entity.getSurname());
+            responseDTO.setPhone(entity.getPhone());
+            responseDTO.setCreatedDate(entity.getCreatedDate());
+            list.add(responseDTO);
+        }
+        long totalElements = filter.getTotalElements();
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return new PageImpl<>(list, pageRequest, totalElements);
     }
 }

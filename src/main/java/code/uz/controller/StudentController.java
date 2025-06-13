@@ -5,7 +5,9 @@ import code.uz.dto.*;
 import code.uz.group_interface.OnCreate;
 import code.uz.group_interface.OnUpdate;
 import code.uz.service.ProfileService;
+import code.uz.util.PageUtil;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -46,5 +48,15 @@ public class StudentController {
     public ResponseEntity<Boolean> deleteProfileById(@PathVariable("id") String id) {
         profileService.deleteProfile(id);
         return ResponseEntity.ok(true);
+    }
+
+    @PostMapping("/filter")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<PageImpl<ProfileResponseDTO>> filter(
+                                                @RequestBody ProfileFilterDTO filterDTO,
+                                                @RequestParam(value = "page", defaultValue = "1") int page,
+                                                @RequestParam(value = "size", defaultValue = "3") int size
+    ) {
+        return ResponseEntity.ok(profileService.filter(filterDTO, PageUtil.getCurrentPage(page), size));
     }
 }
