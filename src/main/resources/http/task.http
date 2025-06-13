@@ -1,11 +1,11 @@
 ### Create Task
 POST localhost:8080/task/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9TVFVERU5UIiwicGhvbmUiOiIxMjEyIiwic3ViIjoiMTIxMiIsImlhdCI6MTc0OTcxODgwMywiZXhwIjoxNzQ5ODA1MjAzfQ.Q0nI315MlTr4EjEzapXHKDpmZD_Ljq0cCmo1-w6tFIg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9TVFVERU5UIiwicGhvbmUiOiIxNzcxIiwic3ViIjoiMTc3MSIsImlhdCI6MTc0OTcyOTY0NCwiZXhwIjoxNzQ5ODE2MDQ0fQ.TqSXqhhBg52frYxhYqJoAIsrux9ewjvrHFpmahU9g1Q
 
 {
-  "title": "Korean Centre",
-  "content": "Working in the Centre as a teacher"
+  "title": "Hiking",
+  "content": "Tomorrow I go hiking"
 }
 
 ### Get All Tasks

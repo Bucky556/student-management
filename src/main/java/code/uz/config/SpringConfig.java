@@ -28,7 +28,7 @@ public class SpringConfig {
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     public static final String[] WHITE_LIST = {
-            "/student/registration",
+            "/student/register",
             "/student/login",
             "/student/refresh-token"
     };

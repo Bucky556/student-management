@@ -3,11 +3,11 @@ POST localhost:8080/student/register
 Content-Type: application/json
 
 {
-  "name": "Azim",
-  "surname": "Uktamov",
-  "phone": "1212",
+  "name": "Akbar",
+  "surname": "Ubaydullayev",
+  "phone": "1771",
   "password": "123",
-  "birthdayDate": "2005-09-03"
+  "birthdayDate": "2004-05-28"
 }
 
 ### Login
@@ -15,7 +15,7 @@ POST localhost:8080/student/login
 Content-Type: application/json
 
 {
-  "phone": "7881",
+  "phone": "4627",
   "password": "123"
 }
 
@@ -43,11 +43,11 @@ Authorization: Basic MTIxMjoxMjM=
 
 ### Get All By Admin
 GET localhost:8080/admin/all
-Authorization: Basic NDYyNzoxMjM=
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInBob25lIjoiNDYyNyIsInN1YiI6IjQ2MjciLCJpYXQiOjE3NDk3MzA1MDIsImV4cCI6MTc0OTgxNjkwMn0.eNv0z-FgOJJ39mF6cSSL1S67qSZkXaLUrt00vZnxl98
 
 ### Get by ID by Admin
-GET localhost:8080/admin/byId/715362f7-1ac3-416b-8c23-adb1408597c3
-Authorization: Basic OTExOToxMjM=
+GET localhost:8080/admin/byId/d1c70fc1-8fa0-4196-945c-f4fd9e3b7ee8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInBob25lIjoiNDYyNyIsInN1YiI6IjQ2MjciLCJpYXQiOjE3NDk3MzA1MDIsImV4cCI6MTc0OTgxNjkwMn0.eNv0z-FgOJJ39mF6cSSL1S67qSZkXaLUrt00vZnxl98
 
 ### Update by Admin
 PUT localhost:8080/admin/update/086c591f-a847-4b7b-9ef6-5b70844e58ae

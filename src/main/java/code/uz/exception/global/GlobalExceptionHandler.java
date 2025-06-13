@@ -1,5 +1,6 @@
 package code.uz.exception.global;
 
+import code.uz.dto.ResponseDTO;
 import code.uz.exception.CustomException;
 import code.uz.exception.UsernameNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -18,29 +19,39 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<String> handle(CustomException e) {
-        return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseDTO<String>> handle(CustomException e) {
+        return new ResponseEntity<>(
+                ResponseDTO.error(e.getMessage(), null),
+                HttpStatus.NOT_FOUND
+        );
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<String> handleUser(UsernameNotFoundException e){
-        return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseDTO<String>> handleUser(UsernameNotFoundException e) {
+        return new ResponseEntity<>(
+                ResponseDTO.error(e.getMessage(), null),
+                HttpStatus.NOT_FOUND
+        );
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ResponseDTO<Map<String, String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errors.put(error.getField(), error.getDefaultMessage()); // siz yozgan message
+            errors.put(error.getField(), error.getDefaultMessage());
         }
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                ResponseDTO.error("Validation error", errors)
+        );
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<String> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+    public ResponseEntity<ResponseDTO<String>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
         if (ex.getMessage() != null && ex.getMessage().contains("LocalDate")) {
-            return ResponseEntity.badRequest().body("Birth date must follow format: yyyy-MM-dd");
+            return ResponseEntity.badRequest().body(ResponseDTO.error("Birth date must follow format: yyyy-MM-dd", null));
         }
-        return ResponseEntity.badRequest().body("Invalid input");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                ResponseDTO.error("Invalid error", null)
+        );
     }
 }

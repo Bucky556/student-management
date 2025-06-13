@@ -1,5 +1,6 @@
 package code.uz.service.Impl;
 
+import code.uz.dto.ResponseDTO;
 import code.uz.dto.TaskGradeRequest;
 import code.uz.dto.TaskGradeResponse;
 import code.uz.entity.ProfileEntity;
@@ -26,7 +27,7 @@ public class TaskGradeServiceImpl implements TaskGradeService {
         this.taskRepository = taskRepository;
     }
 
-    public TaskGradeResponse markStudent(String taskId, TaskGradeRequest taskGradeRequest) {
+    public ResponseDTO<TaskGradeResponse> markStudent(String taskId, TaskGradeRequest taskGradeRequest) {
         Optional<TaskEntity> byId = taskRepository.findById(taskId);
         if (byId.isEmpty()) {
             throw new CustomException("Task not found");
@@ -59,7 +60,7 @@ public class TaskGradeServiceImpl implements TaskGradeService {
         taskGradeRepository.delete(taskGradeEntity);
     }
 
-    public TaskGradeResponse updateMarkedStudent(String markId, TaskGradeRequest taskGradeRequest) {
+    public ResponseDTO<TaskGradeResponse> updateMarkedStudent(String markId, TaskGradeRequest taskGradeRequest) {
         Optional<TaskGradeEntity> byId = taskGradeRepository.findById(markId);
         if (byId.isEmpty()) {
             throw new CustomException("Marked task not found");
@@ -79,10 +80,10 @@ public class TaskGradeServiceImpl implements TaskGradeService {
         taskGradeResponse.setCreateDate(taskGradeEntity.getCreateDate());
         taskGradeResponse.setStudentId(taskGradeEntity.getProfile().getId());
         taskGradeResponse.setMark(taskGradeRequest.getMark());
-        return taskGradeResponse;
+        return ResponseDTO.ok(taskGradeResponse);
     }
 
-    public List<TaskGradeResponse> getAllMarkedStudent() {
+    public ResponseDTO<List<TaskGradeResponse>> getAllMarkedStudent() {
         List<TaskGradeEntity> all = taskGradeRepository.findAll();
         List<TaskGradeResponse> taskGradeResponses = new ArrayList<>();
         if (all.isEmpty()) {
@@ -97,10 +98,10 @@ public class TaskGradeServiceImpl implements TaskGradeService {
             taskGradeResponse.setMark(taskGradeEntity.getMark());
             taskGradeResponses.add(taskGradeResponse);
         }
-        return taskGradeResponses;
+        return ResponseDTO.ok(taskGradeResponses);
     }
 
-    public TaskGradeResponse getMarkedStudentById(String markId) {
+    public ResponseDTO<TaskGradeResponse> getMarkedStudentById(String markId) {
         Optional<TaskGradeEntity> byId = taskGradeRepository.findById(markId);
         if (byId.isEmpty()) {
             throw new CustomException("Task not found");
@@ -116,7 +117,7 @@ public class TaskGradeServiceImpl implements TaskGradeService {
         taskGradeResponse.setCreateDate(taskGradeEntity.getCreateDate());
         taskGradeResponse.setStudentId(taskGradeEntity.getProfile().getId());
         taskGradeResponse.setMark(taskGradeEntity.getMark());
-        return taskGradeResponse;
+        return ResponseDTO.ok(taskGradeResponse);
     }
 
 }

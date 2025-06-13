@@ -1,5 +1,6 @@
 package code.uz.service.Impl;
 
+import code.uz.dto.ResponseDTO;
 import code.uz.dto.TaskRequestDTO;
 import code.uz.dto.TaskResponseDTO;
 import code.uz.entity.ProfileEntity;
@@ -26,7 +27,7 @@ public class TaskServiceImpl implements TaskService {
         this.profileRepository = profileRepository;
     }
 
-    public TaskResponseDTO createTask(TaskRequestDTO taskRequestDTO) {
+    public ResponseDTO<TaskResponseDTO> createTask(TaskRequestDTO taskRequestDTO) {
         TaskEntity entity = new TaskEntity();
         entity.setTitle(taskRequestDTO.getTitle());
         entity.setContent(taskRequestDTO.getContent());
@@ -43,19 +44,19 @@ public class TaskServiceImpl implements TaskService {
         return TaskMapper.toDTO(taskEntity);
     }
 
-    public List<TaskResponseDTO> getAllTasks() {
+    public ResponseDTO<List<TaskResponseDTO>> getAllTasks() {
         List<TaskEntity> profileId = taskRepository.findAllByProfileId(SecurityUtil.getID());
         List<TaskResponseDTO> taskResponseDTOS = new ArrayList<>();
         if (profileId.isEmpty()) {
             throw new CustomException("No Tasks found");
         }
         for (TaskEntity taskEntity : profileId) {
-            taskResponseDTOS.add(TaskMapper.toDTO(taskEntity));
+            taskResponseDTOS.add(TaskMapper.toDTO(taskEntity).getData());
         }
-        return taskResponseDTOS;
+        return ResponseDTO.ok(taskResponseDTOS);
     }
 
-    public List<TaskResponseDTO> getTasksByAdmin(String profileId) {
+    public ResponseDTO<List<TaskResponseDTO>> getTasksByAdmin(String profileId) {
         Optional<ProfileEntity> byId = profileRepository.findById(profileId);
         if (byId.isEmpty()) {
             throw new CustomException("Profile does not exist");
@@ -67,12 +68,12 @@ public class TaskServiceImpl implements TaskService {
             throw new CustomException("No Tasks found");
         }
         for (TaskEntity taskEntity : profileId1) {
-            taskResponseDTOS.add(TaskMapper.toDTO(taskEntity));
+            taskResponseDTOS.add(TaskMapper.toDTO(taskEntity).getData());
         }
-        return taskResponseDTOS;
+        return ResponseDTO.ok(taskResponseDTOS);
     }
 
-    public TaskResponseDTO getTaskById(String taskId) {
+    public ResponseDTO<TaskResponseDTO> getTaskById(String taskId) {
         Optional<TaskEntity> taskEntity = taskRepository.findById(taskId);
         if (taskEntity.isEmpty()) {
             throw new CustomException("Task does not exist");
@@ -87,7 +88,7 @@ public class TaskServiceImpl implements TaskService {
         return TaskMapper.toDTO(taskEntity.get());
     }
 
-    public TaskResponseDTO updateTask(String taskId, TaskRequestDTO taskRequestDTO) {
+    public ResponseDTO<TaskResponseDTO> updateTask(String taskId, TaskRequestDTO taskRequestDTO) {
         Optional<TaskEntity> taskEntity = taskRepository.findById(taskId);
         if (taskEntity.isEmpty()) {
             throw new CustomException("Task does not exist");

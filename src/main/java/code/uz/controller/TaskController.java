@@ -1,5 +1,6 @@
 package code.uz.controller;
 
+import code.uz.dto.ResponseDTO;
 import code.uz.dto.TaskRequestDTO;
 import code.uz.dto.TaskResponseDTO;
 import code.uz.group_interface.OnCreate;
@@ -24,31 +25,31 @@ public class TaskController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")
-    public ResponseEntity<TaskResponseDTO> createTask(@RequestBody @Validated(OnCreate.class) TaskRequestDTO taskRequestDTO) {
+    public ResponseEntity<ResponseDTO<TaskResponseDTO>> createTask(@RequestBody @Validated(OnCreate.class) TaskRequestDTO taskRequestDTO) {
         return ResponseEntity.ok(taskService.createTask(taskRequestDTO));
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")
-    public ResponseEntity<List<TaskResponseDTO>> getAllTasks() {
+    public ResponseEntity<ResponseDTO<List<TaskResponseDTO>>> getAllTasks() {
         return ResponseEntity.ok(taskService.getAllTasks());
     }
 
     @GetMapping("/all-byAdmin/{profileId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<TaskResponseDTO>> getAllTasksByAdmin(@PathVariable("profileId") String projectId) {
+    public ResponseEntity<ResponseDTO<List<TaskResponseDTO>>> getAllTasksByAdmin(@PathVariable("profileId") String projectId) {
         return ResponseEntity.ok(taskService.getTasksByAdmin(projectId));
     }
 
     @GetMapping("/byId/{taskId}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
-    public ResponseEntity<TaskResponseDTO> getTaskById(@PathVariable("taskId") String taskId) {
+    public ResponseEntity<ResponseDTO<TaskResponseDTO>> getTaskById(@PathVariable("taskId") String taskId) {
         return ResponseEntity.ok(taskService.getTaskById(taskId));
     }
 
     @PatchMapping("/update/{taskId}")
     @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")
-    public ResponseEntity<TaskResponseDTO> updateTask(@PathVariable("taskId") String taskId, @RequestBody @Validated(OnUpdate.class) TaskRequestDTO taskRequestDTO) {
+    public ResponseEntity<ResponseDTO<TaskResponseDTO>> updateTask(@PathVariable("taskId") String taskId, @RequestBody @Validated(OnUpdate.class) TaskRequestDTO taskRequestDTO) {
         return ResponseEntity.ok(taskService.updateTask(taskId, taskRequestDTO));
     }
 

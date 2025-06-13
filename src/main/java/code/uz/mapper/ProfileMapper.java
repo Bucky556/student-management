@@ -1,10 +1,11 @@
 package code.uz.mapper;
 
 import code.uz.dto.ProfileResponseDTO;
+import code.uz.dto.ResponseDTO;
 import code.uz.entity.ProfileEntity;
 
 public class ProfileMapper {
-    public static ProfileResponseDTO toDTO(ProfileEntity entity) {
+    public static ResponseDTO<ProfileResponseDTO> toDTO(ProfileEntity entity) {
         ProfileResponseDTO dto = new ProfileResponseDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
@@ -14,6 +15,6 @@ public class ProfileMapper {
         dto.setBirthdayDate(entity.getBirthdayDate());
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setRole(entity.getRole());
-        return dto;
+        return ResponseDTO.ok(dto);
     }
 }

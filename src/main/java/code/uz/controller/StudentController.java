@@ -21,12 +21,12 @@ public class StudentController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ProfileResponseDTO> registerProfile(@Validated(OnCreate.class) @RequestBody ProfileRequestDTO profileRequestDTO) {
+    public ResponseEntity<ResponseDTO<ProfileResponseDTO>> registerProfile(@Validated(OnCreate.class) @RequestBody ProfileRequestDTO profileRequestDTO) {
         return ResponseEntity.ok(profileService.register(profileRequestDTO));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponseDTO> authorization(@RequestBody AuthDTO dto) {
+    public ResponseEntity<ResponseDTO<JwtResponseDTO>> authorization(@RequestBody AuthDTO dto) {
         return ResponseEntity.ok(profileService.login(dto));
     }
 
@@ -37,7 +37,7 @@ public class StudentController {
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity<ProfileResponseDTO> updateProfile(@PathVariable("id") String id, @Validated(OnUpdate.class) @RequestBody ProfileRequestDTO profileRequestDTO) {
+    public ResponseEntity<ResponseDTO<ProfileResponseDTO>> updateProfile(@PathVariable("id") String id, @Validated(OnUpdate.class) @RequestBody ProfileRequestDTO profileRequestDTO) {
         return ResponseEntity.ok(profileService.updateDetailsForStudent(id, profileRequestDTO));
     }
 

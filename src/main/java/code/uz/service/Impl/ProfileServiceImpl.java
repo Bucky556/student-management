@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,7 +34,7 @@ public class ProfileServiceImpl implements ProfileService {
         this.authenticationManager = authenticationManager;
     }
 
-    public ProfileResponseDTO register(ProfileRequestDTO requestDTO) {
+    public ResponseDTO<ProfileResponseDTO> register(ProfileRequestDTO requestDTO) {
         Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleTrue(requestDTO.getPhone());
         if (optional.isPresent()) {
             throw new CustomException("This phone is profile already exists");
@@ -49,7 +50,7 @@ public class ProfileServiceImpl implements ProfileService {
         return ProfileMapper.toDTO(profileEntity);
     }
 
-    public JwtResponseDTO login(AuthDTO authDTO) {
+    public ResponseDTO<JwtResponseDTO> login(AuthDTO authDTO) {
         try {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getPhone(), authDTO.getPassword()));
 
@@ -64,7 +65,7 @@ public class ProfileServiceImpl implements ProfileService {
                 response.setAccessToken(code.uz.utils.JwtUtil.encode(profile.getPhone(), profile.getRole().name()));
                 response.setRefreshToken(code.uz.utils.JwtUtil.refreshToken(profile.getPhone(), profile.getRole().name()));
 
-                return response;
+                return ResponseDTO.ok(response);
             }
         } catch (BadCredentialsException e) {
             throw new CustomException("Invalid phone or password");
@@ -92,14 +93,18 @@ public class ProfileServiceImpl implements ProfileService {
         throw new CustomException("Invalid token");
     }
 
-    public List<ProfileResponseDTO> getAllProfiles() {
-        List<ProfileEntity> allByVisibleTrue = profileRepository.findAll();
-        return allByVisibleTrue.stream()
-                .map(ProfileMapper::toDTO)
-                .collect(Collectors.toList());
+    public ResponseDTO<List<ProfileResponseDTO>> getAllProfiles() {
+        List<ProfileEntity> all = profileRepository.findAll();
+        List<ProfileResponseDTO> list = new ArrayList<>();
+        for (ProfileEntity entity : all) {
+            ProfileResponseDTO dto = ProfileMapper.toDTO(entity).getData();
+            list.add(dto);
+        }
+        return ResponseDTO.ok(list);
     }
 
-    public ProfileResponseDTO getProfileById(String id) {
+
+    public ResponseDTO<ProfileResponseDTO> getProfileById(String id) {
         Optional<ProfileEntity> byId = profileRepository.findById(id);
         if (byId.isPresent()) {
             return ProfileMapper.toDTO(byId.get());
@@ -131,7 +136,7 @@ public class ProfileServiceImpl implements ProfileService {
         profileRepository.delete(entity);
     }
 
-    public ProfileResponseDTO updateDetailsForAdmin(String id, ProfileRequestDTO requestDTO) {
+    public ResponseDTO<ProfileResponseDTO> updateDetailsForAdmin(String id, ProfileRequestDTO requestDTO) {
         Optional<ProfileEntity> byId = profileRepository.findById(id);
         if (byId.isEmpty()) {
             throw new CustomException("Profile not found");
@@ -156,7 +161,7 @@ public class ProfileServiceImpl implements ProfileService {
         return ProfileMapper.toDTO(profileEntity);
     }
 
-    public ProfileResponseDTO updateDetailsForStudent(String id, ProfileRequestDTO requestDTO) {
+    public ResponseDTO<ProfileResponseDTO> updateDetailsForStudent(String id, ProfileRequestDTO requestDTO) {
         Optional<ProfileEntity> byId = profileRepository.findByIdAndVisibleTrue(id);
         if (byId.isEmpty()) {
             throw new CustomException("Profile not found");
