@@ -6,8 +6,8 @@ import code.uz.group_interface.OnCreate;
 import code.uz.group_interface.OnUpdate;
 import code.uz.service.ProfileService;
 import code.uz.util.PageUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -15,12 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/student")
+@RequiredArgsConstructor
 public class StudentController {
     private final ProfileService profileService;
-
-    public StudentController(ProfileService profileService) {
-        this.profileService = profileService;
-    }
 
     @PostMapping("/register")
     public ResponseEntity<ResponseDTO<ProfileResponseDTO>> registerProfile(@Validated(OnCreate.class) @RequestBody ProfileRequestDTO profileRequestDTO) {

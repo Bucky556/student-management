@@ -7,6 +7,7 @@ import code.uz.group_interface.OnCreate;
 import code.uz.group_interface.OnUpdate;
 import code.uz.service.TaskService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -16,12 +17,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/task")
+@RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
-
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
-    }
 
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")

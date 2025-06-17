@@ -5,6 +5,7 @@ import code.uz.dto.TaskGradeRequest;
 import code.uz.dto.TaskGradeResponse;
 import code.uz.service.TaskGradeService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/task-grade")
+@RequiredArgsConstructor
 public class TaskGradeController {
     private final TaskGradeService taskGradeService;
-
-    public TaskGradeController(TaskGradeService taskGradeService) {
-        this.taskGradeService = taskGradeService;
-    }
 
     @PostMapping("/mark/{taskId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

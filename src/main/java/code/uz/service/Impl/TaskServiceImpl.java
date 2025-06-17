@@ -11,6 +11,7 @@ import code.uz.repository.ProfileRepository;
 import code.uz.repository.TaskRepository;
 import code.uz.service.TaskService;
 import code.uz.util.SecurityUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,14 +19,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final ProfileRepository profileRepository;
-
-    public TaskServiceImpl(TaskRepository taskRepository, ProfileRepository profileRepository) {
-        this.taskRepository = taskRepository;
-        this.profileRepository = profileRepository;
-    }
 
     public ResponseDTO<TaskResponseDTO> createTask(TaskRequestDTO taskRequestDTO) {
         TaskEntity entity = new TaskEntity();

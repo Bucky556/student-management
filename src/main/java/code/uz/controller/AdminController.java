@@ -6,6 +6,7 @@ import code.uz.dto.ProfileResponseDTO;
 import code.uz.dto.ResponseDTO;
 import code.uz.group_interface.OnUpdate;
 import code.uz.service.ProfileService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -15,12 +16,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
     private final ProfileService profileService;
-
-    public AdminController(ProfileService profileService) {
-        this.profileService = profileService;
-    }
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

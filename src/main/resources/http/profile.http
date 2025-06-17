@@ -68,7 +68,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInBob25lIjoiNDYyNyIsInN1YiI6IjQ2MjciLCJpYXQiOjE3NDk3ODgxMDksImV4cCI6MTc0OTg3NDUwOX0.d67JjuxMCa9tTpflhCOUXfioDqrQ2NMXBosBibnIjCg
 
 {
-  "birthdayDateTo": "2004-05-30"
+  "birthdayDateTo": ""
 }
 
 

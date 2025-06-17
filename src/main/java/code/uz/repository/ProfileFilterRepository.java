@@ -4,6 +4,7 @@ import code.uz.dto.ProfileFilterDTO;
 import code.uz.entity.ProfileEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
@@ -13,12 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
+@RequiredArgsConstructor
 public class ProfileFilterRepository {
     private final EntityManager entityManager;
-
-    public ProfileFilterRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
 
     public PageImpl<ProfileEntity> filter(ProfileFilterDTO profileFilterDTO, int page, int size) {
         StringBuilder baseQuery = new StringBuilder();

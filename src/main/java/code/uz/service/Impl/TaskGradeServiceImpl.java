@@ -11,6 +11,7 @@ import code.uz.mapper.TaskGradeMapper;
 import code.uz.repository.TaskGradeRepository;
 import code.uz.repository.TaskRepository;
 import code.uz.service.TaskGradeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,14 +19,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TaskGradeServiceImpl implements TaskGradeService {
     private final TaskGradeRepository taskGradeRepository;
     private final TaskRepository taskRepository;
-
-    public TaskGradeServiceImpl(TaskGradeRepository taskGradeRepository, TaskRepository taskRepository) {
-        this.taskGradeRepository = taskGradeRepository;
-        this.taskRepository = taskRepository;
-    }
 
     public ResponseDTO<TaskGradeResponse> markStudent(String taskId, TaskGradeRequest taskGradeRequest) {
         Optional<TaskEntity> byId = taskRepository.findById(taskId);

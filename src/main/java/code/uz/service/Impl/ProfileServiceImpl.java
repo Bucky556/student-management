@@ -11,6 +11,7 @@ import code.uz.repository.ProfileRepository;
 import code.uz.service.ProfileService;
 import code.uz.util.SecurityUtil;
 import io.jsonwebtoken.JwtException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,18 +26,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
     private final ProfileRepository profileRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final ProfileFilterRepository profileFilterRepository;
-
-    public ProfileServiceImpl(ProfileRepository profileRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, ProfileFilterRepository profileFilterRepository) {
-        this.profileRepository = profileRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
-        this.profileFilterRepository = profileFilterRepository;
-    }
 
     public ResponseDTO<ProfileResponseDTO> register(ProfileRequestDTO requestDTO) {
         Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleTrue(requestDTO.getPhone());
