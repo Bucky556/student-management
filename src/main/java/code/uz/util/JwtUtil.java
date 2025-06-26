@@ -1,4 +1,4 @@
-package code.uz.utils;
+package code.uz.util;
 
 import code.uz.dto.JwtDTO;
 import io.jsonwebtoken.Claims;

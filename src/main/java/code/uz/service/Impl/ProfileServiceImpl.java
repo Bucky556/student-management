@@ -9,6 +9,7 @@ import code.uz.model.Status;
 import code.uz.repository.ProfileFilterRepository;
 import code.uz.repository.ProfileRepository;
 import code.uz.service.ProfileService;
+import code.uz.util.JwtUtil;
 import code.uz.util.SecurityUtil;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
@@ -61,8 +62,8 @@ public class ProfileServiceImpl implements ProfileService {
                 response.setSurname(profile.getSurname());
                 response.setPhone(profile.getPhone());
                 response.setRole(profile.getRole());
-                response.setAccessToken(code.uz.utils.JwtUtil.encode(profile.getPhone(), profile.getRole().name()));
-                response.setRefreshToken(code.uz.utils.JwtUtil.refreshToken(profile.getPhone(), profile.getRole().name()));
+                response.setAccessToken(JwtUtil.encode(profile.getPhone(), profile.getRole().name()));
+                response.setRefreshToken(JwtUtil.refreshToken(profile.getPhone(), profile.getRole().name()));
 
                 return ResponseDTO.ok(response);
             }
@@ -74,15 +75,15 @@ public class ProfileServiceImpl implements ProfileService {
 
     public TokenDTO getAccessNewToken(TokenDTO tokenDTO) {
         try {
-            JwtDTO jwtDTO = code.uz.utils.JwtUtil.decode(tokenDTO.getRefreshToken());
+            JwtDTO jwtDTO = JwtUtil.decode(tokenDTO.getRefreshToken());
 
             Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleTrue(jwtDTO.getPhone());
             if (optional.isPresent() && optional.get().getStatus().equals(Status.ACTIVE)) {
                 ProfileEntity profileEntity = optional.get();
 
                 TokenDTO dto = new TokenDTO();
-                dto.setAccessToken(code.uz.utils.JwtUtil.encode(profileEntity.getPhone(), profileEntity.getRole().name()));
-                dto.setRefreshToken(code.uz.utils.JwtUtil.refreshToken(profileEntity.getPhone(), profileEntity.getRole().name()));
+                dto.setAccessToken(JwtUtil.encode(profileEntity.getPhone(), profileEntity.getRole().name()));
+                dto.setRefreshToken(JwtUtil.refreshToken(profileEntity.getPhone(), profileEntity.getRole().name()));
                 return dto;
             }
 

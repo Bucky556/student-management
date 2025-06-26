@@ -1,6 +1,7 @@
 package code.uz.config;
 
 import code.uz.dto.JwtDTO;
+import code.uz.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -36,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             final String token = header.substring(7).trim();
-            JwtDTO jwtDTO = code.uz.utils.JwtUtil.decode(token);
+            JwtDTO jwtDTO = JwtUtil.decode(token);
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(jwtDTO.getPhone());
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
